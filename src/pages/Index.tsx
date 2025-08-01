@@ -28,7 +28,20 @@ const Index = () => {
         if (session?.user) {
           const firstName = session.user.user_metadata?.first_name || '';
           const lastName = session.user.user_metadata?.last_name || '';
-          const displayName = firstName && lastName ? `${firstName} ${lastName}` : session.user.email?.split('@')[0] || 'User';
+          
+          // Better display name logic
+          let displayName = 'User';
+          if (firstName && lastName) {
+            displayName = `${firstName} ${lastName}`;
+          } else if (firstName) {
+            displayName = firstName;
+          } else if (lastName) {
+            displayName = lastName;
+          } else {
+            // Use email prefix but make it more readable
+            const emailPrefix = session.user.email?.split('@')[0] || 'User';
+            displayName = emailPrefix.replace(/[0-9]/g, '').replace(/[-_.]/g, ' ').trim() || emailPrefix;
+          }
           
           setUserProfile({
             name: displayName,
@@ -50,7 +63,20 @@ const Index = () => {
       if (session?.user) {
         const firstName = session.user.user_metadata?.first_name || '';
         const lastName = session.user.user_metadata?.last_name || '';
-        const displayName = firstName && lastName ? `${firstName} ${lastName}` : session.user.email?.split('@')[0] || 'User';
+        
+        // Better display name logic
+        let displayName = 'User';
+        if (firstName && lastName) {
+          displayName = `${firstName} ${lastName}`;
+        } else if (firstName) {
+          displayName = firstName;
+        } else if (lastName) {
+          displayName = lastName;
+        } else {
+          // Use email prefix but make it more readable
+          const emailPrefix = session.user.email?.split('@')[0] || 'User';
+          displayName = emailPrefix.replace(/[0-9]/g, '').replace(/[-_.]/g, ' ').trim() || emailPrefix;
+        }
         
         setUserProfile({
           name: displayName,
