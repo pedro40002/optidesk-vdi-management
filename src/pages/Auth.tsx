@@ -39,6 +39,7 @@ const Auth = () => {
     setMessage(null);
 
     try {
+      console.log('Attempting sign up...');
       const redirectUrl = `${window.location.origin}/`;
       
       const { data, error } = await supabase.auth.signUp({
@@ -53,6 +54,8 @@ const Auth = () => {
         }
       });
 
+      console.log('Sign up response:', { data, error });
+
       if (error) throw error;
 
       if (data.user && !data.user.email_confirmed_at) {
@@ -61,7 +64,8 @@ const Auth = () => {
         window.location.href = '/';
       }
     } catch (error: any) {
-      setError(error.message);
+      console.error('Sign up error:', error);
+      setError(error.message || 'Failed to sign up. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -74,10 +78,13 @@ const Auth = () => {
     setMessage(null);
 
     try {
+      console.log('Attempting sign in...');
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
+
+      console.log('Sign in response:', { data, error });
 
       if (error) throw error;
 
@@ -85,7 +92,8 @@ const Auth = () => {
         window.location.href = '/';
       }
     } catch (error: any) {
-      setError(error.message);
+      console.error('Sign in error:', error);
+      setError(error.message || 'Failed to sign in. Please try again.');
     } finally {
       setLoading(false);
     }
