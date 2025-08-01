@@ -10,6 +10,8 @@ import { Profile } from '@/components/Profile';
 import { Settings } from '@/components/Settings';
 import { Sidebar } from '@/components/Sidebar';
 import { SettingsProvider, useSettings } from '@/contexts/SettingsContext';
+import { Button } from '@/components/ui/button';
+import { Menu, X } from 'lucide-react';
 
 const Index = () => {
   const location = useLocation();
@@ -18,6 +20,7 @@ const Index = () => {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const [userProfile, setUserProfile] = useState<{name: string; email: string} | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Get current page from URL
   const getCurrentPage = () => {
@@ -49,6 +52,7 @@ const Index = () => {
   // Function to handle navigation with URL update
   const handlePageChange = (page: string) => {
     setCurrentPage(page);
+    setIsMobileMenuOpen(false); // Close mobile menu when navigating
     const routeMap: { [key: string]: string } = {
       'dashboard': '/dashboard',
       'analytics': '/analytics',
@@ -180,6 +184,8 @@ const Index = () => {
         handleLogout={handleLogout}
         userProfile={userProfile}
         renderContent={renderContent}
+        isMobileMenuOpen={isMobileMenuOpen}
+        setIsMobileMenuOpen={setIsMobileMenuOpen}
       />
     </SettingsProvider>
   );
@@ -191,7 +197,9 @@ const MainContent: React.FC<{
   handleLogout: () => void;
   userProfile: any;
   renderContent: () => React.ReactNode;
-}> = ({ currentPage, setCurrentPage, handleLogout, userProfile, renderContent }) => {
+  isMobileMenuOpen: boolean;
+  setIsMobileMenuOpen: (open: boolean) => void;
+}> = ({ currentPage, setCurrentPage, handleLogout, userProfile, renderContent, isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const { isMaintenanceMode } = useSettings();
 
   if (isMaintenanceMode) {
@@ -214,15 +222,49 @@ const MainContent: React.FC<{
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-900">
-      <Sidebar 
-        currentPage={currentPage} 
-        onPageChange={setCurrentPage}
-        onLogout={handleLogout}
-        userEmail={userProfile?.email}
-        userName={userProfile?.name}
-      />
-      <div className="flex-1">
+    <div className="flex min-h-screen bg-slate-900 relative">
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
+      {/* Mobile Header */}
+      <div className="fixed top-0 left-0 right-0 h-16 bg-slate-900/95 backdrop-blur-sm border-b border-green-500/30 flex items-center justify-between px-4 z-30 lg:hidden">
+        <div className="flex items-center space-x-3">
+          <div className="w-8 h-8 cyber-glow rounded-lg bg-gradient-to-r from-green-400 to-blue-500 flex items-center justify-center">
+            <span className="text-sm font-bold text-white">OD</span>
+          </div>
+          <h1 className="text-lg font-bold text-white">OptiDesk</h1>
+        </div>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="text-white hover:bg-white/10"
+        >
+          {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </Button>
+      </div>
+
+      {/* Sidebar - Desktop: always visible, Mobile: slide-in overlay */}
+      <div className={`
+        fixed lg:static top-0 left-0 h-full z-50 transform transition-transform duration-300 ease-in-out lg:transform-none lg:z-auto
+        ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+      `}>
+        <Sidebar 
+          currentPage={currentPage} 
+          onPageChange={setCurrentPage}
+          onLogout={handleLogout}
+          userEmail={userProfile?.email}
+          userName={userProfile?.name}
+        />
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 lg:ml-0 pt-16 lg:pt-0">
         {renderContent()}
       </div>
     </div>

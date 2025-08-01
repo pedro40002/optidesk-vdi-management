@@ -107,25 +107,25 @@ const Auth = () => {
       <div className="absolute inset-0 grid-cyber opacity-30"></div>
       
       {/* Floating Animation Elements */}
-      <div className="absolute top-20 left-20 w-20 h-20 cyber-glow-blue rounded-xl floating-animation opacity-40">
+      <div className="absolute top-20 left-20 w-20 h-20 cyber-glow-blue rounded-xl floating-animation opacity-40 hidden md:block">
         <div className="w-full h-full bg-gradient-to-r from-blue-400 to-cyan-300 rounded-xl"></div>
       </div>
-      <div className="absolute bottom-20 right-20 w-16 h-16 cyber-glow rounded-lg floating-animation opacity-30" style={{animationDelay: '2s'}}>
+      <div className="absolute bottom-20 right-20 w-16 h-16 cyber-glow rounded-lg floating-animation opacity-30 hidden md:block" style={{animationDelay: '2s'}}>
         <div className="w-full h-full bg-gradient-to-r from-green-400 to-blue-500 rounded-lg"></div>
       </div>
-      <div className="absolute top-1/3 right-1/4 w-12 h-12 cyber-glow rounded-full floating-animation opacity-25" style={{animationDelay: '4s'}}>
+      <div className="absolute top-1/3 right-1/4 w-12 h-12 cyber-glow rounded-full floating-animation opacity-25 hidden lg:block" style={{animationDelay: '4s'}}>
         <div className="w-full h-full bg-gradient-to-r from-purple-400 to-pink-500 rounded-full"></div>
       </div>
 
       {/* Main Login Container */}
-      <div className="relative z-10 w-full max-w-md">
-        <div className="glass-morphism border border-green-500/30 cyber-glow p-8 rounded-2xl">
+      <div className="relative z-10 w-full max-w-md mx-auto">
+        <div className="glass-morphism border border-green-500/30 cyber-glow p-6 md:p-8 rounded-2xl">
           {/* Header */}
-          <div className="text-center mb-8">
-            <div className="inline-block w-16 h-16 cyber-glow rounded-xl rotate-slow bg-gradient-to-r from-green-400 to-blue-500 flex items-center justify-center mb-4">
-              <div className="text-2xl font-bold text-white">OD</div>
+          <div className="text-center mb-6 md:mb-8">
+            <div className="inline-block w-12 h-12 md:w-16 md:h-16 cyber-glow rounded-xl rotate-slow bg-gradient-to-r from-green-400 to-blue-500 flex items-center justify-center mb-4">
+              <div className="text-lg md:text-2xl font-bold text-white">OD</div>
             </div>
-            <h1 className="text-3xl font-bold text-white cyber-glow mb-2">OptiDesk</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-white cyber-glow mb-2">OptiDesk</h1>
             <p className="text-green-400 text-sm">Virtual Desktop Infrastructure</p>
           </div>
 
@@ -133,7 +133,7 @@ const Auth = () => {
           <div className="flex mb-6 bg-black/30 rounded-lg p-1">
             <button
               onClick={() => setIsSignUp(false)}
-              className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all duration-300 ${
+              className={`flex-1 py-2 px-2 md:px-4 rounded-md text-xs md:text-sm font-medium transition-all duration-300 ${
                 !isSignUp 
                   ? 'bg-green-500/20 text-green-400 shadow-lg cyber-glow' 
                   : 'text-gray-400 hover:text-white'
@@ -143,7 +143,7 @@ const Auth = () => {
             </button>
             <button
               onClick={() => setIsSignUp(true)}
-              className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all duration-300 ${
+              className={`flex-1 py-2 px-2 md:px-4 rounded-md text-xs md:text-sm font-medium transition-all duration-300 ${
                 isSignUp 
                   ? 'bg-blue-500/20 text-blue-400 shadow-lg cyber-glow-blue' 
                   : 'text-gray-400 hover:text-white'
@@ -169,7 +169,7 @@ const Auth = () => {
           {/* Form */}
           <form onSubmit={isSignUp ? handleSignUp : handleSignIn} className="space-y-4">
             {isSignUp && (
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="relative">
                   <Input
                     type="text"
@@ -227,10 +227,10 @@ const Auth = () => {
               {loading ? (
                 <div className="flex items-center justify-center space-x-2">
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                  <span>{isSignUp ? 'Creating Account...' : 'Signing In...'}</span>
+                  <span className="text-sm md:text-base">{isSignUp ? 'Creating Account...' : 'Signing In...'}</span>
                 </div>
               ) : (
-                <span>{isSignUp ? 'Create Account' : 'Access System'}</span>
+                <span className="text-sm md:text-base">{isSignUp ? 'Create Account' : 'Access System'}</span>
               )}
             </Button>
           </form>
@@ -246,8 +246,8 @@ const Auth = () => {
         </div>
 
         {/* Glowing Orbs */}
-        <div className="absolute -top-4 -left-4 w-8 h-8 bg-green-400 rounded-full blur-sm opacity-60 pulse-glow"></div>
-        <div className="absolute -bottom-4 -right-4 w-6 h-6 bg-blue-400 rounded-full blur-sm opacity-60 pulse-glow" style={{animationDelay: '1s'}}></div>
+        <div className="absolute -top-4 -left-4 w-6 h-6 md:w-8 md:h-8 bg-green-400 rounded-full blur-sm opacity-60 pulse-glow"></div>
+        <div className="absolute -bottom-4 -right-4 w-4 h-4 md:w-6 md:h-6 bg-blue-400 rounded-full blur-sm opacity-60 pulse-glow" style={{animationDelay: '1s'}}></div>
       </div>
     </div>
   );

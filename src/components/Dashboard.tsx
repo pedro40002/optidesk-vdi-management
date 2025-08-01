@@ -94,33 +94,33 @@ export const Dashboard = () => {
       <div className="absolute inset-0 grid-cyber opacity-20"></div>
       
       {/* Floating 3D Elements */}
-      <div className="absolute top-20 right-20 w-20 h-20 cyber-glow-blue rounded-xl floating-animation opacity-30">
+      <div className="absolute top-20 right-20 w-20 h-20 cyber-glow-blue rounded-xl floating-animation opacity-30 hidden lg:block">
         <Server className="w-full h-full p-4 text-blue-400" />
       </div>
-      <div className="absolute bottom-20 left-20 w-16 h-16 cyber-glow rounded-lg floating-animation opacity-20" style={{animationDelay: '2s'}}>
+      <div className="absolute bottom-20 left-20 w-16 h-16 cyber-glow rounded-lg floating-animation opacity-20 hidden md:block" style={{animationDelay: '2s'}}>
         <Monitor className="w-full h-full p-3 text-green-400" />
       </div>
 
-      <div className="relative z-10 p-6 space-y-6">
+      <div className="relative z-10 p-4 md:p-6 space-y-6">
         {/* Header */}
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 md:mb-8 space-y-4 sm:space-y-0">
           <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 cyber-glow rounded-xl rotate-slow bg-gradient-to-r from-green-400 to-blue-500 flex items-center justify-center">
-              <Server className="w-6 h-6 text-white" />
+            <div className="w-10 h-10 md:w-12 md:h-12 cyber-glow rounded-xl rotate-slow bg-gradient-to-r from-green-400 to-blue-500 flex items-center justify-center">
+              <Server className="w-5 h-5 md:w-6 md:h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-4xl font-bold text-white cyber-glow">OptiDesk</h1>
-              <p className="text-green-400">Virtual Desktop Infrastructure</p>
+              <h1 className="text-2xl md:text-4xl font-bold text-white cyber-glow">OptiDesk</h1>
+              <p className="text-green-400 text-sm md:text-base">Virtual Desktop Infrastructure</p>
             </div>
           </div>
-          <div className="text-right">
-            <div className="text-2xl font-mono text-white">{currentTime.toLocaleTimeString()}</div>
+          <div className="text-left sm:text-right">
+            <div className="text-xl md:text-2xl font-mono text-white">{currentTime.toLocaleTimeString()}</div>
             <div className="text-sm text-gray-400">{currentTime.toLocaleDateString()}</div>
           </div>
         </div>
 
         {/* System Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
           <Card className="glass-morphism border-green-500/30 cyber-glow slide-in-right">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-gray-300">CPU Usage</CardTitle>

@@ -50,7 +50,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, onPageChange, onL
       </div>
 
       {/* Navigation */}
-      <nav className="relative z-10 flex-1 p-4 space-y-2">
+      <nav className="relative z-10 flex-1 p-4 space-y-2 overflow-y-auto">
         {menuItems.map((item) => {
           const Icon = item.icon;
           const isActive = currentPage === item.id;
@@ -66,10 +66,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, onPageChange, onL
                   : 'text-gray-400 hover:text-white hover:bg-white/10 border border-transparent'
               }`}
             >
-              <Icon className={`w-5 h-5 ${isActive ? 'text-green-400' : item.color}`} />
-              <span className="font-medium">{item.label}</span>
+              <Icon className={`w-5 h-5 flex-shrink-0 ${isActive ? 'text-green-400' : item.color}`} />
+              <span className="font-medium text-sm sm:text-base">{item.label}</span>
               {isActive && (
-                <div className="ml-auto w-2 h-2 bg-green-400 rounded-full pulse-glow"></div>
+                <div className="ml-auto w-2 h-2 bg-green-400 rounded-full pulse-glow flex-shrink-0"></div>
               )}
             </Button>
           );
@@ -81,7 +81,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, onPageChange, onL
         <div className="space-y-3">
           {/* User Info */}
           <div className="flex items-center space-x-3 px-3 py-2 bg-white/5 rounded-lg border border-white/10">
-            <div className="w-8 h-8 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center">
+            <div className="w-8 h-8 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
               <Shield className="w-4 h-4 text-white" />
             </div>
             <div className="flex-1 min-w-0">
@@ -100,14 +100,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, onPageChange, onL
             variant="outline"
             className="w-full justify-start space-x-3 border-red-500/30 text-red-400 hover:bg-red-500/20 hover:text-red-300"
           >
-            <LogOut className="w-5 h-5" />
+            <LogOut className="w-5 h-5 flex-shrink-0" />
             <span>Logout</span>
           </Button>
         </div>
       </div>
 
       {/* Floating Decoration */}
-      <div className="absolute bottom-20 right-4 w-12 h-12 cyber-glow-blue rounded-lg floating-animation opacity-20">
+      <div className="absolute bottom-20 right-4 w-12 h-12 cyber-glow-blue rounded-lg floating-animation opacity-20 hidden lg:block">
         <Monitor className="w-full h-full p-3 text-blue-400" />
       </div>
     </div>
