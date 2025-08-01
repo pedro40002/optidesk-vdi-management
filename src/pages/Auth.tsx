@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,6 +7,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { User } from '@supabase/supabase-js';
 
 const Auth = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -19,13 +21,13 @@ const Auth = () => {
     // Check if user is already logged in
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
-        window.location.href = '/';
+        navigate('/dashboard');
       }
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (session?.user) {
-        window.location.href = '/';
+        navigate('/dashboard');
       }
     });
 
@@ -61,7 +63,7 @@ const Auth = () => {
       if (data.user && !data.user.email_confirmed_at) {
         setMessage('Please check your email for a confirmation link.');
       } else if (data.user) {
-        window.location.href = '/';
+        navigate('/dashboard');
       }
     } catch (error: any) {
       console.error('Sign up error:', error);
@@ -89,7 +91,7 @@ const Auth = () => {
       if (error) throw error;
 
       if (data.user) {
-        window.location.href = '/';
+        navigate('/dashboard');
       }
     } catch (error: any) {
       console.error('Sign in error:', error);

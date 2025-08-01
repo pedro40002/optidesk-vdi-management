@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { User, Session } from '@supabase/supabase-js';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Dashboard } from '@/components/Dashboard';
 import { CostCalculator } from '@/components/CostCalculator';
@@ -11,11 +12,52 @@ import { Sidebar } from '@/components/Sidebar';
 import { SettingsProvider, useSettings } from '@/contexts/SettingsContext';
 
 const Index = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
-  const [currentPage, setCurrentPage] = useState('dashboard');
   const [loading, setLoading] = useState(true);
   const [userProfile, setUserProfile] = useState<{name: string; email: string} | null>(null);
+
+  // Get current page from URL
+  const getCurrentPage = () => {
+    const path = location.pathname;
+    switch (path) {
+      case '/':
+      case '/dashboard':
+        return 'dashboard';
+      case '/analytics':
+        return 'analytics';
+      case '/cost-calculator':
+        return 'cost-calculator';
+      case '/profile':
+        return 'profile';
+      case '/settings':
+        return 'settings';
+      default:
+        return 'dashboard';
+    }
+  };
+
+  const [currentPage, setCurrentPage] = useState(getCurrentPage());
+
+  // Update currentPage when URL changes
+  useEffect(() => {
+    setCurrentPage(getCurrentPage());
+  }, [location.pathname]);
+
+  // Function to handle navigation with URL update
+  const handlePageChange = (page: string) => {
+    setCurrentPage(page);
+    const routeMap: { [key: string]: string } = {
+      'dashboard': '/dashboard',
+      'analytics': '/analytics',
+      'cost-calculator': '/cost-calculator',
+      'profile': '/profile',
+      'settings': '/settings'
+    };
+    navigate(routeMap[page] || '/dashboard');
+  };
 
   useEffect(() => {
     // Set up auth state listener FIRST
@@ -93,7 +135,7 @@ const Index = () => {
   const handleLogout = async () => {
     try {
       await supabase.auth.signOut({ scope: 'global' });
-      window.location.href = '/auth';
+      navigate('/auth');
     } catch (error) {
       console.error('Error signing out:', error);
     }
@@ -126,7 +168,7 @@ const Index = () => {
   }
 
   if (!user) {
-    window.location.href = '/auth';
+    navigate('/auth');
     return null;
   }
 
@@ -134,7 +176,7 @@ const Index = () => {
     <SettingsProvider>
       <MainContent 
         currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
+        setCurrentPage={handlePageChange}
         handleLogout={handleLogout}
         userProfile={userProfile}
         renderContent={renderContent}
